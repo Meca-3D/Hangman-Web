@@ -1,20 +1,20 @@
 @font-face {
     font-family: 'SF-regular';
-    src: url("font/SF-Pro-Display-Light.otf") format("opentype");
+    src: url("../font/SF-Pro-Display-Light.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "SF-bold";
-    src: url("font/SF-Pro-Display-Heavy.OTF") format("opentype");
+    src: url("../font/SF-Pro-Display-Heavy.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: "SF-thin";
-    src: url("font/SF-Pro-Display-Thin.otf") format("opentype");
+    src: url("../font/SF-Pro-Display-Thin.otf") format("opentype");
     font-weight: normal;
     font-style: normal;
 }
@@ -106,12 +106,15 @@ h1, h3 {
 }
 
 .presentation {
-    height: 18rem;
-    width: 29.41176rem;
+    background-color: #e3e3e3;
+    border-color: transparent;
+    padding: 10px;
+    font-family: SF-regular, sans-serif;
+    box-shadow: 0 0 0 rgba(0,0,0,0);
 }
 
-.duotitle {
-    display: none;
+.presentation:hover {
+    background-color: #e5e6e5;
 }
 
 .select1:hover,.select2:hover {
