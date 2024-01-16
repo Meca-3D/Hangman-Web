@@ -9,8 +9,8 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "home")
 }
 
-func COC(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "COC")
+func Solo(w http.ResponseWriter, r *http.Request) {
+	renderTemplate(w, "solo")
 }
 
 func renderTemplate(w http.ResponseWriter, html string) {

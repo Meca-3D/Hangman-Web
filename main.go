@@ -18,7 +18,7 @@ func main() {
 	http.Handle("/font/", http.StripPrefix("/font/", fs))
 
 	http.HandleFunc("/", Home)
-	http.HandleFunc("/coc", COC)
+	http.HandleFunc("/solo", Solo)
 
 	fmt.Println("(http://localhost:8080) - Server started on port ", PORT)
 	http.ListenAndServe(PORT, nil)
