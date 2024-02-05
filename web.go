@@ -6,18 +6,16 @@ import (
 )
 
 func web() {
-	fs := http.FileServer(http.Dir("template"))
-	http.Handle("/template/", http.StripPrefix("/template/", fs))
-
-	fs = http.FileServer(http.Dir("assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
-
-	fs = http.FileServer(http.Dir("font"))
-	http.Handle("/font/", http.StripPrefix("/font/", fs))
-
+	http.Handle("/template/", http.StripPrefix("/template/", http.FileServer(http.Dir("template"))))
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+	http.Handle("/font/", http.StripPrefix("/font/", http.FileServer(http.Dir("font"))))
 	http.HandleFunc("/", Home)
 	http.HandleFunc("/solo", Solo)
 
-	fmt.Println("(http://localhost:8080) - Server started on port ", PORT)
-	http.ListenAndServe(PORT, nil)
+	serverAddr := "localhost" + PORT
+	fmt.Println("Server started on:", serverAddr)
+	err := http.ListenAndServe(PORT, nil)
+	if err != nil {
+		fmt.Println("Error starting server:", err)
+	}
 }
