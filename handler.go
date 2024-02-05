@@ -11,6 +11,8 @@ type Web struct {
 	Attempts      int
 	LettersTapped string // Historique des lettres tapées
 	Message       string // Message personnalisé
+	Lost          bool   // Indique si le joueur a perdu
+	LostWord      string // Le mot à afficher lorsque le joueur a perdu
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
@@ -22,7 +24,10 @@ func Solo(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	letter := r.Form.Get("letter")
 
-	if letter != "" {
+	if isWordGuessed() || attempts <= 0 {
+		// Réinitialisez le jeu car le mot a été trouvé ou le joueur a perdu
+		resetGame()
+	} else if letter != "" {
 		// Convertir la lettre en majuscules
 		letter = strings.ToUpper(letter)
 
@@ -43,23 +48,24 @@ func Solo(w http.ResponseWriter, r *http.Request) {
 		Word:          strings.Join(guessedWord, " "),
 		Attempts:      attempts,
 		LettersTapped: lettersTapped,
-		Message:       getMessage(), // Obtenez un message personnalisé
+		Message:       getMessage(),
 	}
+
 	template.Execute(w, gameState)
 }
 
-// Fonction utilitaire pour obtenir des messages personnalisés
+
 func getMessage() string {
 	if isWordGuessed() {
 		return "Félicitations, vous avez deviné le mot !"
 	} else if attempts == 0 {
-		return "Dommage, vous n'avez plus d'essais. Le mot était : " + wordToFind
+		return "Dommage, vous n'avez plus d'essais."
 	} else {
 		return "Bonne chance !"
 	}
 }
 
-// Fonction utilitaire pour vérifier si le mot a été deviné
+
 func isWordGuessed() bool {
 	for _, letter := range guessedWord {
 		if letter == "_" {
@@ -69,7 +75,6 @@ func isWordGuessed() bool {
 	return true
 }
 
-// Fonction utilitaire pour vérifier si un élément est dans une liste
 func contains(list []string, element string) bool {
 	for _, value := range list {
 		if value == element {
@@ -86,4 +91,8 @@ func renderTemplate(w http.ResponseWriter, html string) {
 		return
 	}
 	t.Execute(w, nil)
+}
+
+func getLostWord() string {
+	return wordToFind
 }

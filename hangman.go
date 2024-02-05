@@ -8,14 +8,47 @@ import (
 	"unicode"
 )
 
-var wordToFind = "IPHONE"
+var wordsToGuess = []string{
+	"IPHONE",
+	"MACBOOK",
+	"IPAD",
+	"IOS",
+	"MACOS",
+	"IMAC",
+	"MACMINI",
+	"APPLEWATCH",
+	"AIRPODS",
+	"ITUNES",
+	"ICLOUD",
+	"SIRI",
+	"APPLEMUSIC",
+	"APPLETV",
+	"APPPRO",
+	"MAGICMOUSE",
+	"MAGICKB",
+	"FACEID",
+	"TOUCHID",
+}
+
 var guessedWord []string
 var guessedLetters []string
-var attempts = 6
+var attempts = 11
+var wordToFind string
 
-func initGame() {
+func init() {
 	rand.Seed(time.Now().UnixNano())
+	// Choisissez un mot au hasard parmi la liste
+	resetGame()
+}
+
+func resetGame() {
+	wordToFind = chooseNewWord()
 	guessedWord = make([]string, len(wordToFind))
+	attempts = 11
+	initGuessedWord()
+}
+
+func initGuessedWord() {
 	for i := range guessedWord {
 		guessedWord[i] = "_"
 	}
@@ -42,4 +75,9 @@ func revealGuessedWord(letter string) {
 			guessedWord[i] = letter
 		}
 	}
+}
+
+func chooseNewWord() string {
+	// Choisissez un mot au hasard parmi la nouvelle liste
+	return wordsToGuess[rand.Intn(len(wordsToGuess))]
 }
